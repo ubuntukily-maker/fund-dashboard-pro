@@ -1,0 +1,10 @@
+{
+  "name": "fund-dashboard-pro",
+  "version": "1.0.0",
+  "scripts": {
+    "fetch": "node scripts/fetch_fund.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
