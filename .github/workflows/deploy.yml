@@ -1,0 +1,36 @@
+name: Fund Dashboard
+
+on:
+  workflow_dispatch:
+    inputs:
+      codes:
+        description: "fund codes"
+        required: true
+
+  schedule:
+    - cron: "0 9,15 * * 1-5"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update fund codes
+        if: github.event.inputs.codes != ''
+        run: |
+          echo '${{ github.event.inputs.codes }}' > src/fund_codes.json
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - run: npm install
+      - run: npm run fetch
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./src
